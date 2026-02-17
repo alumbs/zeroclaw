@@ -9,9 +9,9 @@
 
 services:
   zeroclaw:
-    image: ghcr.io/theonlyhennygod/zeroclaw:latest
+    #image: ghcr.io/theonlyhennygod/zeroclaw:latest
     # Or build locally:
-    # build: .
+    build: .
     container_name: zeroclaw
     restart: unless-stopped
     
@@ -26,7 +26,7 @@ services:
       - PROVIDER=${PROVIDER:-openrouter}
       
       # Allow public bind inside Docker (required for container networking)
-      - ZEROCLAW_ALLOW_PUBLIC_BIND=true
+      #- ZEROCLAW_ALLOW_PUBLIC_BIND=true
       
       # Optional: Model override
       # - ZEROCLAW_MODEL=anthropic/claude-sonnet-4-20250514
