@@ -33,32 +33,10 @@ default_provider = "openrouter"
 default_model = "anthropic/claude-sonnet-4-20250514"
 default_temperature = 0.7
 
-[memory]
-backend = "sqlite"
-auto_save = true
-embedding_provider = "noop"
-
 [gateway]
 port = 3000
-host = "127.0.0.1"
-allow_public_bind = false
-
-[autonomy]
-level = "supervised"
-workspace_only = true
-allowed_commands = ["git", "npm", "cargo", "ls", "cat", "grep", "find", "echo", "pwd", "wc", "head", "tail"]
-forbidden_paths = ["/etc", "/root", "/proc", "/sys", "~/.ssh", "~/.gnupg", "~/.aws"]
-max_actions_per_hour = 20
-max_cost_per_day = 5.0
-
-[runtime]
-kind = "native"
-
-[tunnel]
-provider = "none"
-
-[secrets]
-encrypt = false
+host = "[::]"
+allow_public_bind = true
 EOF
 
 RUN chown -R 65534:65534 /zeroclaw-data
@@ -75,9 +53,12 @@ COPY --from=builder /app/target/release/zeroclaw /usr/local/bin/zeroclaw
 ENV ZEROCLAW_WORKSPACE=/zeroclaw-data/workspace
 ENV HOME=/zeroclaw-data
 ENV PROVIDER="openrouter"
+ENV ZEROCLAW_GATEWAY_PORT=3000
 
 WORKDIR /zeroclaw-data
 USER 65534:65534
 
+EXPOSE 3000
+
 ENTRYPOINT ["zeroclaw"]
-CMD ["daemon"]
+CMD ["gateway", "--port", "3000", "--host", "[::]"]
