@@ -34,9 +34,9 @@ default_model = "anthropic/claude-sonnet-4-20250514"
 default_temperature = 0.7
 
 [gateway]
-port = 3000
+port = 7040
 host = "[::]"
-allow_public_bind = true
+allow_public_bind = false
 EOF
 
 RUN chown -R 65534:65534 /zeroclaw-data
@@ -53,12 +53,11 @@ COPY --from=builder /app/target/release/zeroclaw /usr/local/bin/zeroclaw
 ENV ZEROCLAW_WORKSPACE=/zeroclaw-data/workspace
 ENV HOME=/zeroclaw-data
 ENV PROVIDER="openrouter"
-ENV ZEROCLAW_GATEWAY_PORT=3000
+ENV ZEROCLAW_GATEWAY_PORT=7040
 
 WORKDIR /zeroclaw-data
 USER 65534:65534
 
-EXPOSE 3000
 
 ENTRYPOINT ["zeroclaw"]
-CMD ["gateway", "--port", "3000", "--host", "[::]"]
+CMD ["gateway", "--host", "[::]"]
