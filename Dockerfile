@@ -35,7 +35,7 @@ default_temperature = 0.7
 
 [gateway]
 port = 7040
-host = "[::]"
+host = "127.0.0.1"
 allow_public_bind = false
 EOF
 
@@ -60,4 +60,4 @@ USER 65534:65534
 
 
 ENTRYPOINT ["zeroclaw"]
-CMD ["gateway", "--host", "[::]"]
+CMD ["gateway", "--host", "127.0.0.1"]
