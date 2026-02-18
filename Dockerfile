@@ -46,8 +46,10 @@ allow_public_bind = false
 [autonomy]
 level = "supervised"
 workspace_only = true
-allowed_commands = ["ls", "cat", "grep", "git"]
-forbidden_paths = ["/etc", "/root", "/proc", "/sys"]
+allowed_commands = ["git", "npm", "cargo", "ls", "cat", "grep", "find", "echo", "pwd", "wc", "head", "tail"]
+forbidden_paths = ["/etc", "/root", "/proc", "/sys", "~/.ssh", "~/.gnupg", "~/.aws"]
+max_actions_per_hour = 20
+max_cost_per_day = 5.0
 
 [runtime]
 kind = "native"
